@@ -2,6 +2,6 @@
 
 int main()
 {
-    std::cout << "swag" << std::endl;
+    std::cout << "NNK" << std::endl;
     return 0;
 }
