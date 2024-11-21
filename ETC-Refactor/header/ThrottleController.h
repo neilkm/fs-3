@@ -22,6 +22,8 @@ namespace ETC {
 #define CAN_FREQ 500000
 #define MAX_TORQUE 20000
 
+#define DEBUGLEVEL 0
+
 class ThrottleController
 {
     public:
@@ -41,5 +43,13 @@ class ThrottleController
         mbed::InterruptIn Cockpit;
         mbed::DigitalOut RTDScontrol;
         mbed::DigitalOut test_led;
-    };
+};
+
+void debugLevelPrint(int level, std::string message) {
+    if (level >= DEBUGLEVEL) {
+        printf(message);
+    }
+    return;
+}
+
 }
