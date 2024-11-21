@@ -1,4 +1,6 @@
-#include "mbed.h"
+#pragma once 
+
+#include <mbed.h>
 #include <chrono>
 #include <cstdint>
 #include <cstdio>
@@ -19,14 +21,17 @@ namespace ETC {
 
 
 class ThrottleController {
-    private:
+    public:
+        ThrottleController();
+        ~ThrottleController();
+
         // Constant tested range of values for pedal travel calculation
         const float HE1_LOW = .15;
         const float HE1_HIGH = .73;
         const float HE2_LOW = .14;
         const float HE2_HIGH = .57;
 
-        AnalogIn HE1(A1);
+        AnalogIn HE1;
         AnalogIn HE2(A0);
         AnalogIn brakes(A2);
         InterruptIn Cockpit(D9);
@@ -62,8 +67,6 @@ class ThrottleController {
         void implausability();
         void printStatusMessage();
         float getPedalTravel(Timer* implausability_track);
-
-    public:
         //?
 }
 

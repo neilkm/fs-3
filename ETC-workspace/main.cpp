@@ -1,10 +1,14 @@
 //#include "mbed.h"
 #include "TaskQueue.h"
+#include "Header/ThrottleController.h"
 
 TaskQueue eventQueue(64);
 
 int main()
 {
+    // Setup main threadcontroller
+    ETC::ThrottleController controller
+
     int stt = 0; // steps till tick
     while(1)
     {

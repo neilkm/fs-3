@@ -2,6 +2,16 @@
 
 namespace ETC {
 
+ThrottleController::ThrottleController()
+{
+        this->HE1 = AnalogIn(A1);
+}
+
+ThrottleController::~ThrottleController()
+{
+
+}
+
 void ThrottleController::canRX() {
         CANFlag = true;
 }
