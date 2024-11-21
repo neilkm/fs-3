@@ -7,6 +7,7 @@
 #include <chrono>
 #include <cstdint>
 #include <cstdio>
+#include <iostream>
 
 namespace ETC {
 
@@ -47,10 +48,10 @@ class ThrottleController
 
 //NNK instead of commenting out prints, we can add global debug variables of different levels to turn on or off debug output
 void debugLevelPrint(int level, std::string message) {
-    if (level >= DEBUGLEVEL) {
-        printf(message);
+    if (DEBUGLEVEL >= level) {
+        std::cout << message << std::endl;
     }
     return;
 }
 
-}
+} //namespace
