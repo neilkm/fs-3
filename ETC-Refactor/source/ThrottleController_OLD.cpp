@@ -20,7 +20,7 @@ ThrottleController::~ThrottleController()
 
 }
 
-void initIO() {
+void ThrottleController::initIO() {
     // printf("initIO\n");
     canBus = new CAN(CAN_RX_PIN, CAN_TX_PIN, CAN_FREQ);
 
