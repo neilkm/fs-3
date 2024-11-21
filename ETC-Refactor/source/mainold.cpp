@@ -31,6 +31,9 @@ int main()
     return 0;
 }
 
+//NNK Below is the old main function from fs-2 please leave comments
+// how super loop is run and what functions get called and what variables are getting updated
+
 /*
 int main()
 {

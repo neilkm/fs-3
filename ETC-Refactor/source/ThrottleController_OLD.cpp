@@ -1,5 +1,13 @@
 #include "ThrottleController.h"
 
+//NNK where does throttleMessage come from?
+//NNK where does CANMessage come from?
+//NNK stateMessage?
+//NNK cockpit?
+//NNK canBus?
+//NNK mbbAlive?
+//NNK RTDControl?
+
 namespace ETC {
 
 ThrottleController::ThrottleController()
@@ -73,7 +81,7 @@ void ThrottleController::runRTDS() {
         // printf("RUNNING RTDS\n");
         // test_led.write(true);
         RTDScontrol.write(true);
-        queue.call_in(1000ms, &stopRTDS);
+        queue.call_in(1000ms, &stopRTDS); //NNK Why are we waiting here?
 }
 
 void ThrottleController::stopRTDS() {
@@ -95,17 +103,17 @@ void ThrottleController::check_start_conditions() {
             {
                 return;
             }
-            queue.call(&runRTDS);
+            queue.call(&runRTDS); //NNK why not runRTSD() by itself?
             RTDSqueued = true;
         }
 }
 
 void ThrottleController::cockpit_switch_high() {
-        queue.call_in(10ms, &check_start_conditions);
+        queue.call_in(10ms, &check_start_conditions); //NNK why waiting 10ms?
 }
 
 void ThrottleController::cockpit_switch_low() {
-        queue.call_in(10ms, &check_switch_low);
+        queue.call_in(10ms, &check_switch_low); //NNK why waiting 10ms?
 }
 
 void ThrottleController::check_switch_low() {
@@ -151,7 +159,7 @@ float ThrottleController::getPedalTravel(Timer *implausability_track) {
 
         if (travel_diff > .1f)
         {
-            if (implausability_track->elapsed_time() > 100ms)
+            if (implausability_track->elapsed_time() > 100ms) //NNK explain magic number
             {
                 implausability();
             }
@@ -166,7 +174,7 @@ float ThrottleController::getPedalTravel(Timer *implausability_track) {
             implausability_track->reset();
         }
 
-        if (HE1_read == 0 || HE2_read == 0 || HE1_read >= 0.9 || HE2_read >= 0.9)
+        if (HE1_read == 0 || HE2_read == 0 || HE1_read >= 0.9 || HE2_read >= 0.9) //NNK explain magic numbers
         {
             // printf("implausability\n");
             implausability();
