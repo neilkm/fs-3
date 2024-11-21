@@ -11,6 +11,7 @@ namespace ETC {
 #error [NOT_SUPPORTED] CAN not supported for this target
 #endif
 
+//NNK need to be macros? or can they be constants at top of .cpp
 #define MAX_V 3.3
 #define BRAKE_TOL .1
 #define MAXSPEED 7500
@@ -73,7 +74,7 @@ class ThrottleController {
         void implausability();
         void printStatusMessage();
         float getPedalTravel(Timer* implausability_track);
-        //?
+
 }
 
 } //namespace

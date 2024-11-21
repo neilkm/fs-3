@@ -20,6 +20,25 @@ ThrottleController::~ThrottleController()
 
 }
 
+void initIO() {
+    // printf("initIO\n");
+    canBus = new CAN(CAN_RX_PIN, CAN_TX_PIN, CAN_FREQ);
+
+    //ARL change to polling system, queue adds unecessary overhead
+    queue.call_every(20ms, &sendThrottle);
+    queue.call_every(100ms, &sendSync);
+    queue.call_every(100ms, &sendState); //NNK Here is your issue! you are sending sendSync and sendState at the same time
+
+    canBus->attach(canRX);
+    
+    // printf("Waiting for start conditions!\n");
+
+    Cockpit.rise(&cockpit_switch_high);
+
+    // Event for closing motor
+    Cockpit.fall(&cockpit_switch_low);
+}
+
 void ThrottleController::canRX() {
         CANFlag = true;
 }
