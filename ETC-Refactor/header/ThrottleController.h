@@ -25,6 +25,7 @@ namespace ETC {
 
 #define DEBUGLEVEL 0
 
+//NNK this should implement a state machine for tx/rx messages based on event states
 class ThrottleController
 {
     public:

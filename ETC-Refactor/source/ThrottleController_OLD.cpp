@@ -8,6 +8,9 @@
 //NNK mbbAlive?
 //NNK RTDControl?
 
+//NNK bring all magic numbers to the top.. set variables at the top with pins.
+//NNK all consts and io pins should be set at top of file so they are easy to replace and change
+
 namespace ETC {
 
 ThrottleController::ThrottleController()
