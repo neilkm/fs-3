@@ -74,7 +74,7 @@ void ThrottleController::sendState() {
         // We calculate in a long-winded fashion for debug purposes
         float HE1_read = HE1.read();
         float HE2_read = HE2.read();
-        debugLevelPrint(1,"HE1: %f  | HE2: %f\n", HE1_read, HE2_read);
+        debugLevelPrint(1,std::string("HE1: %f  | HE2: %f\n", HE1_read, HE2_read));
         // printf("HE1: %f  | HE2: %f\n", HE1_read, HE2_read);
 
         float clamped_HE1 = clamp(HE1_read, HE1_LOW, HE1_HIGH);
@@ -145,7 +145,7 @@ void ThrottleController::check_switch_low() {
         {
             return;
         }
-        Motor_On = false;
+        Motor_On = false; //NNK a lot of these functions seem unneccessary, lets try to merge these smaller functions together
 }
 
 void ThrottleController::implausability() {
@@ -162,7 +162,7 @@ void ThrottleController::printStatusMessage() {
         float HE2_read = HE2.read(); 
 
         //NNK instead of commenting out prints, we can add global debug variables of different levels to turn on or off debug output
-        debugLevelPrint(1,"Cockpit Switch: %i | TS_RDY: %i | Brakes: %f | Motor_On: %i | HE1: %f | HE2: %f\n", cockpit, ts_rdy, b, m_on, HE1_read, HE2_read);
+        debugLevelPrint(1,std::string("Cockpit Switch: %i | TS_RDY: %i | Brakes: %f | Motor_On: %i | HE1: %f | HE2: %f\n", cockpit, ts_rdy, b, m_on, HE1_read, HE2_read));
         // printf("Cockpit Switch: %i | TS_RDY: %i | Brakes: %f | Motor_On: %i | HE1: %f | HE2: %f\n", cockpit, ts_rdy, b, m_on, HE1_read, HE2_read);
 }
 
@@ -170,7 +170,7 @@ float ThrottleController::getPedalTravel(Timer *implausability_track) {
         // We calculate in a long-winded fashion for debug purposes
         float HE1_read = HE1.read();
         float HE2_read = HE2.read();
-        debugLevelPrint(1,"HE1: %f  | HE2: %f\n", HE1_read, HE2_read);
+        debugLevelPrint(1,std::string("HE1: %f  | HE2: %f\n", HE1_read, HE2_read));
         // printf("HE1: %f  | HE2: %f\n", HE1_read, HE2_read);
 
         float clamped_HE1 = clamp(HE1_read, HE1_LOW, HE1_HIGH);
@@ -182,7 +182,7 @@ float ThrottleController::getPedalTravel(Timer *implausability_track) {
 
         // implausibility if greater than 10% pedal travel diff for more than 100 ms.
         float pedal_travel = 0.5 * (HE1_travel + HE2_travel); // take the avg of the two pedal travels
-        debugLevelPrint(1,"Pedal Travel: %f\n", pedal_travel);
+        debugLevelPrint(1,std::string("Pedal Travel: %f\n", pedal_travel));
         // printf("Pedal Travel: %f\n", pedal_travel);
         float travel_diff = std::abs(HE1_travel - HE2_travel);
 
