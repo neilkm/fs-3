@@ -21,6 +21,7 @@ ThrottleController::~ThrottleController()
 }
 
 void ThrottleController::initIO() {
+    debugLevelPrint(1,"initIO\n");
     // printf("initIO\n");
     canBus = new CAN(CAN_RX_PIN, CAN_TX_PIN, CAN_FREQ);
 
@@ -31,6 +32,7 @@ void ThrottleController::initIO() {
 
     canBus->attach(canRX);
     
+    debugLevelPrint(1,"Waiting for start conditions!\n");
     // printf("Waiting for start conditions!\n");
 
     Cockpit.rise(&cockpit_switch_high);
@@ -72,6 +74,7 @@ void ThrottleController::sendState() {
         // We calculate in a long-winded fashion for debug purposes
         float HE1_read = HE1.read();
         float HE2_read = HE2.read();
+        debugLevelPrint(1,"HE1: %f  | HE2: %f\n", HE1_read, HE2_read);
         // printf("HE1: %f  | HE2: %f\n", HE1_read, HE2_read);
 
         float clamped_HE1 = clamp(HE1_read, HE1_LOW, HE1_HIGH);
@@ -97,6 +100,7 @@ void ThrottleController::sendState() {
 }
 
 void ThrottleController::runRTDS() {
+        debugLevelPrint(1,"RUNNING RTDS\n");
         // printf("RUNNING RTDS\n");
         // test_led.write(true);
         RTDScontrol.write(true);
@@ -106,6 +110,7 @@ void ThrottleController::runRTDS() {
 void ThrottleController::stopRTDS() {
         // test_led.write(false);
         RTDScontrol.write(false);
+        debugLevelPrint(1,"FINISHED RTDS\n");
         // printf("FINISHED RTDS\n");
         RTDSqueued = false;
 }
@@ -154,8 +159,10 @@ void ThrottleController::printStatusMessage() {
         int cockpit = Cockpit.read();
         float b = brakes.read();
         float HE1_read = HE1.read();
-        float HE2_read = HE2.read();
+        float HE2_read = HE2.read(); 
 
+        //NNK instead of commenting out prints, we can add global debug variables of different levels to turn on or off debug output
+        debugLevelPrint(1,"Cockpit Switch: %i | TS_RDY: %i | Brakes: %f | Motor_On: %i | HE1: %f | HE2: %f\n", cockpit, ts_rdy, b, m_on, HE1_read, HE2_read);
         // printf("Cockpit Switch: %i | TS_RDY: %i | Brakes: %f | Motor_On: %i | HE1: %f | HE2: %f\n", cockpit, ts_rdy, b, m_on, HE1_read, HE2_read);
 }
 
@@ -163,16 +170,19 @@ float ThrottleController::getPedalTravel(Timer *implausability_track) {
         // We calculate in a long-winded fashion for debug purposes
         float HE1_read = HE1.read();
         float HE2_read = HE2.read();
+        debugLevelPrint(1,"HE1: %f  | HE2: %f\n", HE1_read, HE2_read);
         // printf("HE1: %f  | HE2: %f\n", HE1_read, HE2_read);
 
         float clamped_HE1 = clamp(HE1_read, HE1_LOW, HE1_HIGH);
         float clamped_HE2 = clamp(HE2_read, HE2_LOW, HE2_HIGH);
         float HE1_travel = (clamped_HE1 - HE1_LOW) / (HE1_HIGH - HE1_LOW);
-        float HE2_travel = (clamped_HE2 - HE2_LOW) / (HE2_HIGH - HE2_LOW);
+        float HE2_travel = (clamped_HE2 - HE2_LOW) / (HE2_HIGH - HE2_LOW); //NNK comments explaining logic or include logic in documentation
+        debugLevelPrint(1,"HE1_travel: %f  | HE2_travel: %f\n", HE1_travel, HE2_travel);
         // printf("HE1_travel: %f  | HE2_travel: %f\n", HE1_travel, HE2_travel);
 
         // implausibility if greater than 10% pedal travel diff for more than 100 ms.
         float pedal_travel = 0.5 * (HE1_travel + HE2_travel); // take the avg of the two pedal travels
+        debugLevelPrint(1,"Pedal Travel: %f\n", pedal_travel);
         // printf("Pedal Travel: %f\n", pedal_travel);
         float travel_diff = std::abs(HE1_travel - HE2_travel);
 
@@ -195,6 +205,7 @@ float ThrottleController::getPedalTravel(Timer *implausability_track) {
 
         if (HE1_read == 0 || HE2_read == 0 || HE1_read >= 0.9 || HE2_read >= 0.9) //NNK explain magic numbers
         {
+            debugLevelPrint(1,"implausability\n");
             // printf("implausability\n");
             implausability();
         }
