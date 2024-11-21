@@ -45,6 +45,7 @@ class ThrottleController
         mbed::DigitalOut test_led;
 };
 
+//NNK instead of commenting out prints, we can add global debug variables of different levels to turn on or off debug output
 void debugLevelPrint(int level, std::string message) {
     if (level >= DEBUGLEVEL) {
         printf(message);
