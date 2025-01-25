@@ -56,7 +56,7 @@ void do_can_processing() {
 int main()
 {
  etc_handle = new ETCController();
- can_handle = new CANWrapper(*etc_handle, global_events);
+ can_handle = new CANWrapper(*etc_handle, global_events); //global events should be passed as a const reference
 
  Thread high_priority_thread(osPriorityHigh);
  high_priority_thread.start(do_can_processing);
